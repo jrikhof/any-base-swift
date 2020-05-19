@@ -1,0 +1,52 @@
+# Only create a build job IF there is no tag in the commit
+if: tag IS blank
+# Only create a build job IF the branch is 'master'
+branches:
+  only:
+  - master
+# Set environment variables for the build job  
+env:
+  global:
+  - SWIFT_BRANCH=swift-5.2.3-RELEASE
+  - SWIFT_VERSION=swift-DEVELOPMENT-SNAPSHOT-2020-05-18-a 
+  # PACKAGE_VERSION will be used by travis to create the Github release tag
+  - PACKAGE_VERSION=1.0.0
+  - secure: KzVfWPO/3sxlJZDqAT8ZA6GRTZAjIVLZ1dF8WY80P5r9T4+Q76RhQeyG4HcjxaNDYfIqVH6PSGihVGGRSOa23ycW7uersvV+sU672V5IyMpUpyaLzLMXuDaiXxiz6BYtRbhqfM+y6uNXdt60GPDljrOdmTBn/f2aIEemn1HJ7haqQ1WGaMFhiGGxv8piVJb/WWfdZ4i6uNZPtHybbN7r4DRvopa8LaeYnQJCR/uNsVmhefYikni6yiMrJzvPrtOBvR/rPz281EdQVo3pOXIiHeNjKrfRtslnY3Yzbl8VjOxUKyfg8CcNBV/Wv56xZsn4yD4N6/KNYBWljs2qWJFviPUgzFFHxuKtANFPB+BTMkmRqs5LgUyEgTUQZ683ksASn3GyXlsW7WlRlh3V7aExbImT3BBo7z6aZ+jL28twDa9dpzq89qPvrZ7uKdQI80yxkK5R4RtU9Hu0hZtOUaesvJei6qMRBnyWn8oRkApsbqFrfTQkTm2pno+ZhWMZ9zW7f8M4jQyg8tGG6dkrQBNsPoryClrq8ZIVA4Rdw0hxb5lyqnM25XtbLXz2+UZ+Dkz+qEcWZK9V2+SSfkp5xzCU5XWRkDVPcqCbQkl7PXRVbaNgCG8uVLW0siZUYN2AdENtmOj1uXCo2fcTmZBGgKnq3Zn2ODpz/Sk0/GVZgTuXsxs=
+jobs:
+  include:
+  # The first stage will run all unit tests using Ubuntu
+  - stage: Linux test
+    os: linux
+    language: generic
+    dist: bionic
+    sudo: required
+    install:
+    - sudo apt-get install clang libicu-dev
+    - mkdir swift
+    - curl https://swift.org/builds/$SWIFT_BRANCH/ubuntu1804/$SWIFT_VERSION/$SWIFT_VERSION-ubuntu18.04.tar.gz
+      -s | tar xz -C swift &> /dev/null
+    - export PATH="$(pwd)/swift/$SWIFT_VERSION-ubuntu18.04/usr/bin:$PATH"
+    script:
+    - swift package update
+    - swift test
+  # The second stage will run all tests on macOS
+  - stage: OSX test
+    os: osx
+    osx_image: xcode11.4
+    language: swift
+    sudo: required
+    install:
+    - wget https://swift.org/builds/$SWIFT_BRANCH/xcode/$SWIFT_VERSION/$SWIFT_VERSION-osx.pkg
+    - sudo installer -pkg $SWIFT_VERSION-osx.pkg -target /
+    - export PATH="/Library/Developer/Toolchains/$SWIFT_VERSION.xctoolchain/usr/bin:$PATH"
+    script:
+    - swift package update
+    - swift test
+  # The final stage will create a new Github tag using the version specified above, this will create
+  # a new release in Github
+  - stage: Set tag
+    script:
+    - git config --global user.email "builds@travis-ci.com"
+    - git config --global user.name "Travis CI"
+    - git tag $PACKAGE_VERSION
+    - git push --quiet https://$GH_TOKEN@github.com/jrikhof/any-base-swift --tag > /dev/null 2>&1
