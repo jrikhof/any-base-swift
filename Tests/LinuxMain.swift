@@ -1,7 +1,7 @@
 import XCTest
 
-import AnyBase_SwiftTests
+import AnyBaseTests
 
 var tests = [XCTestCaseEntry]()
-tests += AnyBase_SwiftTests.allTests()
+tests += AnyBaseTests.allTests()
 XCTMain(tests)
