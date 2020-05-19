@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/jrikhof/any-base-swift.svg?branch=master)](https://travis-ci.com/jrikhof/any-base-swift)
+
 # AnyBase-Swift
 
 This is a Swift implementation of Kamil Harasimowicz's [any-base](https://github.com/HarasimowiczKamil/any-base0) npm package.
