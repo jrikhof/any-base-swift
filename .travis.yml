@@ -7,8 +7,8 @@ branches:
 # Set environment variables for the build job  
 env:
   global:
-  - SWIFT_BRANCH=swift-5.2.3-RELEASE
-  - SWIFT_VERSION=swift-DEVELOPMENT-SNAPSHOT-2020-05-18-a 
+  - SWIFT_BRANCH=swift-5.2.3-release
+  - SWIFT_VERSION=swift-5.2.3-RELEASE
   # PACKAGE_VERSION will be used by travis to create the Github release tag
   - PACKAGE_VERSION=1.0.0
   - secure: KzVfWPO/3sxlJZDqAT8ZA6GRTZAjIVLZ1dF8WY80P5r9T4+Q76RhQeyG4HcjxaNDYfIqVH6PSGihVGGRSOa23ycW7uersvV+sU672V5IyMpUpyaLzLMXuDaiXxiz6BYtRbhqfM+y6uNXdt60GPDljrOdmTBn/f2aIEemn1HJ7haqQ1WGaMFhiGGxv8piVJb/WWfdZ4i6uNZPtHybbN7r4DRvopa8LaeYnQJCR/uNsVmhefYikni6yiMrJzvPrtOBvR/rPz281EdQVo3pOXIiHeNjKrfRtslnY3Yzbl8VjOxUKyfg8CcNBV/Wv56xZsn4yD4N6/KNYBWljs2qWJFviPUgzFFHxuKtANFPB+BTMkmRqs5LgUyEgTUQZ683ksASn3GyXlsW7WlRlh3V7aExbImT3BBo7z6aZ+jL28twDa9dpzq89qPvrZ7uKdQI80yxkK5R4RtU9Hu0hZtOUaesvJei6qMRBnyWn8oRkApsbqFrfTQkTm2pno+ZhWMZ9zW7f8M4jQyg8tGG6dkrQBNsPoryClrq8ZIVA4Rdw0hxb5lyqnM25XtbLXz2+UZ+Dkz+qEcWZK9V2+SSfkp5xzCU5XWRkDVPcqCbQkl7PXRVbaNgCG8uVLW0siZUYN2AdENtmOj1uXCo2fcTmZBGgKnq3Zn2ODpz/Sk0/GVZgTuXsxs=
