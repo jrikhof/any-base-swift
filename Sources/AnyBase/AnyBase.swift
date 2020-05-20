@@ -1,19 +1,19 @@
-class AnyBase {
+public final class AnyBase {
 
-    static let BIN = "01"
-    static let OCT = "01234567"
-    static let DEC = "0123456789"
-    static let HEX = "0123456789abcdef"
+    public static let BIN = "01"
+    public static let OCT = "01234567"
+    public static let DEC = "0123456789"
+    public static let HEX = "0123456789abcdef"
 
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case BadAlphabet
         case ContainsNonAlphabeticDigits
     }
 
-    let srcAlphabet: String
-    let dstAlphabet: String
+    private let srcAlphabet: String
+    private let dstAlphabet: String
 
-    init(_ srcAlphabet: String, _ dstAlphabet: String) throws {
+    public init(_ srcAlphabet: String, _ dstAlphabet: String) throws {
         guard !srcAlphabet.isEmpty, !dstAlphabet.isEmpty else {
             throw Error.BadAlphabet
         }
@@ -21,7 +21,7 @@ class AnyBase {
         self.dstAlphabet = dstAlphabet
     }
 
-    func convert(_ value: String) throws -> String {
+    public func convert(_ value: String) throws -> String {
         guard srcAlphabet != dstAlphabet else {
             return value
         }
